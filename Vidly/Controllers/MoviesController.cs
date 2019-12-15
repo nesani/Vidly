@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -13,8 +14,23 @@ namespace Vidly.Controllers
         public ActionResult Random()
         {
             var movie = new Movie() { Name = "Shrek" };
+            var customers = new List<Customer>()
+            {
+                new Customer { Id = 1, Name = "Nenad" },
+                new Customer { Id = 2, Name = "Goran" },
+                new Customer { Id = 3, Name = "Vuk" }
+            };
 
-            return View(movie);
+            var model = new RandomMovieViewModel()
+            {
+                Movie = movie,
+                Customer = customers
+            };
+
+            //ViewData["Movie"] = movie;
+            //ViewBag.Movie = movie;
+
+            return View(model);
             //return Content("Hello World");
             //return HttpNotFound();
             //return new EmptyResult();
