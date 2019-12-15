@@ -34,12 +34,17 @@ namespace Vidly.Controllers
                 pageIndex = 1;
             }
 
-            if(string.IsNullOrWhiteSpace(sortBy))
+            if (string.IsNullOrWhiteSpace(sortBy))
             {
                 sortBy = "Name";
             }
 
             return Content(string.Format($"pageIndex={pageIndex}&sortBy={sortBy}"));
+        }
+
+        public ActionResult ByReleaseDate(int year, int month)
+        {
+            return Content(year + "/" + month);
         }
     }
 }
