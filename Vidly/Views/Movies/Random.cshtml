@@ -9,5 +9,25 @@
 
 @*<h2>@(((Movie)ViewBag.Movie).Name)</h2>*@
 
-<h2>@Model.Movie.Name for customer @Model.Customer[1].Name</h2>
+@{ 
+    var className = Model.Customer.Count > 1 ? "popular" : null;
+}
+
+<h2 class="@className">@Model.Movie.Name</h2>
+
+<hr />
+
+@if (Model.Customer.Count == 0)
+{
+    <text>No one has rented the movie</text>
+}
+else
+{
+    <ul class="list-inline text-center">
+        @foreach (var customer in Model.Customer)
+        {
+            <li class="list-inline-item">@customer.Name</li>
+        }
+    </ul>
+}
 
