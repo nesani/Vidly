@@ -4,11 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
+using System.Data.Entity;
 
 namespace Vidly.Controllers
 {
     public class CustomersController : Controller
     {
+        private ApplicationDbContext dbContext;
+        public CustomersController()
+        {
+            dbContext = new ApplicationDbContext();
+        }
         // GET: Customers
         public ActionResult Index()
         {
@@ -17,6 +23,10 @@ namespace Vidly.Controllers
             return View(customer);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            dbContext.Dispose();
+        }
 
         public ActionResult Details (int id)
         {
@@ -30,12 +40,7 @@ namespace Vidly.Controllers
 
         private IEnumerable<Customer> GetCustomers()
         {
-            return new List<Customer>
-            {
-                new Customer {Id = 1, Name = "Nenad Nikic"},
-                new Customer {Id = 2, Name = "Goran Radovic"},
-                new Customer {Id = 3, Name = "Vuk Dragicevic"}
-            };
+            return dbContext.Customers.Include(c => c.MembershipType);
         }
 
     }
