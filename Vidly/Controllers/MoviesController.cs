@@ -81,5 +81,13 @@ namespace Vidly.Controllers
         {
             return dbContext.Movies;
         }
+
+
+        public ActionResult Details (int id)
+        {
+            var movies = GetMovies().FirstOrDefault( m => m.Id == id);
+
+            return View(movies);
+        }
     }
 }
