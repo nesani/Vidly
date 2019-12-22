@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using System.Data.Entity;
+using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -28,7 +29,59 @@ namespace Vidly.Controllers
             dbContext.Dispose();
         }
 
-        public ActionResult Details (int id)
+        public ActionResult New()
+        {
+
+            var memtypes = GetMembershipTypes();
+            var viewModel = new CustomerForViewModel()
+            {
+                MembershipTypes = memtypes
+            };
+            return View("CustomerForm", viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new CustomerForViewModel()
+            {
+                customer = customer,
+                MembershipTypes = dbContext.MembershipTypes
+            };
+
+
+            return View("CustomerForm", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Customer customer)
+        {
+            if (customer.Id == 0)
+            {
+                dbContext.Customers.Add(customer);
+            }
+            else
+            {
+                var customerInDB = dbContext.Customers.Single(m => m.Id == customer.Id);
+
+                customerInDB.Name = customer.Name;
+                customerInDB.Birthdate = customer.Birthdate;
+                customerInDB.MembershipTypeId = customer.MembershipTypeId;
+                customerInDB.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
+
+            }
+            dbContext.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Details(int id)
         {
             var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
 
@@ -41,6 +94,11 @@ namespace Vidly.Controllers
         private IEnumerable<Customer> GetCustomers()
         {
             return dbContext.Customers.Include(c => c.MembershipType);
+        }
+
+        private IEnumerable<MembershipType> GetMembershipTypes()
+        {
+            return dbContext.MembershipTypes;
         }
 
     }
