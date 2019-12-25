@@ -2,11 +2,18 @@
 @model Vidly.ViewModels.NewMovieViewModal
 @{
 
-                ViewBag.Title = "New Movie";
-                Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "New Movie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Movie</h2>
+@if (Model.Movie == null)
+{
+    <h2>New Movie</h2>
+}
+else
+{
+    <h2>Edit Movie</h2>
+}
 
 @using (Html.BeginForm("Save", "Movies"))
 {
