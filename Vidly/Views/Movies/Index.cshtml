@@ -6,6 +6,8 @@
         int i = 0;
     }
 
+<button class="btn btn-primary" type="button" onclick= "location.href = '@Url.Action("New","Movies",null)'">New Movie</button>
+<hr />
     <table class="table">
         <thead>
             <tr>
@@ -22,7 +24,7 @@
                 i++;
                 <tr>
                     <th scope="row">@i</th>
-                    <td>@Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id }, null)</td>
+                    <td>@Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
                     <td>@movie.Genre</td>
                 </tr>
             }

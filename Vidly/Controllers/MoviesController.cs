@@ -23,6 +23,62 @@ namespace Vidly.Controllers
             return View(movies);
         }
 
+        public ActionResult New()
+        {
+
+            var viewModal = new NewMovieViewModal
+            {
+                Genre = GetGenres()
+            };
+
+            return View("MovieForm", viewModal);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+            {
+                movie.DateAdded = DateTime.Now;
+                dbContext.Movies.Add(movie);
+            }
+            else
+            {
+                var movieInDB = dbContext.Movies.Single(m => m.Id == movie.Id);
+
+                movieInDB.DateAdded = DateTime.Now;
+                movieInDB.Genre = movie.Genre;
+                movieInDB.Name = movie.Name;
+                movieInDB.ReleaseDate = movie.ReleaseDate;
+                movieInDB.Stock = movie.Stock;
+
+            }
+            dbContext.SaveChanges();
+
+            return RedirectToAction("Index", "Movies");
+
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = GetMovies().SingleOrDefault(c => c.Id == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new NewMovieViewModal()
+            {
+                Movie = movie,
+                Genre = GetGenres()
+            };
+
+
+            return View("MovieForm", viewModel);
+        }
+
+
         // GET: Movies
         public ActionResult Random()
         {
@@ -50,10 +106,10 @@ namespace Vidly.Controllers
             //return RedirectToAction("Index", "Home", new {page = 1, sortBy ="name" });
         }
 
-        public ActionResult Edit(int id)
-        {
-            return Content("id = " + id);
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return Content("id = " + id);
+        //}
 
         // movies
         //public ActionResult Index(int? pageIndex, string sortBy)
@@ -88,6 +144,20 @@ namespace Vidly.Controllers
             var movies = GetMovies().FirstOrDefault( m => m.Id == id);
 
             return View(movies);
+        }
+
+        private List<string> GetGenres()
+        {
+            var genres = new List<string>()
+            {
+                "Historical",
+                "Action",
+                "Popular",
+                "Sci-Fi",
+                "Comedy"
+            };
+
+            return genres;
         }
     }
 }
