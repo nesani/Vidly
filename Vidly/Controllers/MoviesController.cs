@@ -28,15 +28,27 @@ namespace Vidly.Controllers
 
             var viewModal = new NewMovieViewModal
             {
-                Genre = GetGenres()
+                Genre = GetGenres(),
+                Movie = new Movie()
             };
 
             return View("MovieForm", viewModal);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if(!ModelState.IsValid)
+            {
+                var viewModal = new NewMovieViewModal
+                {
+                    Genre = GetGenres(),
+                    Movie = new Movie()
+                };
+
+                return View("MovieForm", viewModal);
+            }
             if (movie.Id == 0)
             {
                 movie.DateAdded = DateTime.Now;

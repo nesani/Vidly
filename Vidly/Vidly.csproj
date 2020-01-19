@@ -221,12 +221,17 @@
     <Compile Include="Migrations\201912221533263_populateMovies.Designer.cs">
       <DependentUpon>201912221533263_populateMovies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001191643293_ValidationTutorials.cs" />
+    <Compile Include="Migrations\202001191643293_ValidationTutorials.Designer.cs">
+      <DependentUpon>202001191643293_ValidationTutorials.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
+    <Compile Include="Models\Min18yearsIfAMember.cs" />
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -450,6 +455,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912221533263_populateMovies.resx">
       <DependentUpon>201912221533263_populateMovies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001191643293_ValidationTutorials.resx">
+      <DependentUpon>202001191643293_ValidationTutorials.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -35,7 +35,9 @@ namespace Vidly.Controllers
             var memtypes = GetMembershipTypes();
             var viewModel = new CustomerForViewModel()
             {
-                MembershipTypes = memtypes
+                MembershipTypes = memtypes,
+                customer = new Customer()
+               
             };
             return View("CustomerForm", viewModel);
         }
@@ -60,8 +62,20 @@ namespace Vidly.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
+            if(!ModelState.IsValid)
+            {
+                var viewModel = new CustomerForViewModel()
+                {
+                    customer = customer,
+                    MembershipTypes = GetMembershipTypes()
+                };
+
+
+                return View("CustomerForm", viewModel);
+            }
             if (customer.Id == 0)
             {
                 dbContext.Customers.Add(customer);

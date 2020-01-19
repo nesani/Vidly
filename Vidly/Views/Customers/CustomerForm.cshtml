@@ -9,21 +9,26 @@
 @using (Html.BeginForm("Save", "Customers"))
 {
     <div>
-
+        @Html.ValidationSummary(true, "Please fix the following errors")
         <div class="form-group">
             @Html.LabelFor(m => m)
             @Html.TextBoxFor(m => m.customer.Name, new { @class = "form-control" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.customer.Birthdate)
-            @Html.TextBoxFor(m => m.customer.Birthdate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.customer.Name)
         </div>
 
         <div class="form-group">
             @Html.LabelFor(m => m.customer.MembershipTypeId)
             @Html.DropDownListFor(m => m.customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.customer.MembershipTypeId)
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.customer.Birthdate)
+            @Html.TextBoxFor(m => m.customer.Birthdate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.customer.Birthdate)
+        </div>
+
+
     </div>
 
     <div class="form-group">
@@ -31,8 +36,13 @@
             <label class="form-check-label">@Html.CheckBoxFor(m => m.customer.IsSubscribedToNewsLetter) Is Subscribed to newsletter?</label>
         </div>
     </div>
-    @Html.HiddenFor( h => h.customer.Id)
+    @Html.HiddenFor(h => h.customer.Id)
+    @Html.AntiForgeryToken()
 
     <button type="submit" class="btn btn-primary">Save</button>
 }
 
+@section scripts
+{
+@Scripts.Render("~/bundles/jqueryval");
+}
