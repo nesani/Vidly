@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Vidly.Models;
 using System.Data.Entity;
 using Vidly.ViewModels;
+using Vidly.DTO;
+using AutoMapper;
 
 namespace Vidly.Controllers
 {
@@ -105,9 +107,9 @@ namespace Vidly.Controllers
             return View(customer);
         }
 
-        private IEnumerable<Customer> GetCustomers()
+        private IEnumerable<CustomerDto> GetCustomers()
         {
-            return dbContext.Customers.Include(c => c.MembershipType);
+            return dbContext.Customers.Include(c => c.MembershipType).Select(Mapper.Map<Customer, CustomerDto>);
         }
 
         private IEnumerable<MembershipType> GetMembershipTypes()
