@@ -107,9 +107,9 @@ namespace Vidly.Controllers
             return View(customer);
         }
 
-        private IEnumerable<CustomerDto> GetCustomers()
+        private IEnumerable<Customer> GetCustomers()
         {
-            return dbContext.Customers.Include(c => c.MembershipType).Select(Mapper.Map<Customer, CustomerDto>);
+            return dbContext.Customers.Include(c => c.MembershipType);
         }
 
         private IEnumerable<MembershipType> GetMembershipTypes()
